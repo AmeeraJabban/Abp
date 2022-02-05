@@ -1,0 +1,37 @@
+﻿@page
+@model Acme.BookStore.Web.Pages.Attachments.IndexModel
+@using Acme.BookStore.Localization
+@using Acme.BookStore.Permissions
+@using Microsoft.Extensions.Localization
+@using Microsoft.AspNetCore.Authorization
+@inject IAuthorizationService AuthorizationService
+@inject IStringLocalizer<BookStoreResource> L
+@section scripts
+{
+    <abp-script src="/Pages/Attachments/Index.js" />
+}
+<abp-card>
+   <abp-card-header>
+    <abp-row>
+        <abp-column size-md="_9">
+            <abp-card-title>@L["Attachments"]</abp-card-title>
+        </abp-column>
+                
+        <abp-column size-md="_3" class="text-right">
+                @if (await AuthorizationService.IsGrantedAsync(BookStorePermissions.Attachments.Create))
+                {
+                    <abp-button id="NewAttachmentButton"
+                        text="@L["NewAttachment"].Value"
+                        icon="plus"
+                        button-type="Primary"/>
+                }
+                 </abp-column>
+    </abp-row>
+</abp-card-header>
+
+    <abp-card-body>
+
+        <abp-table striped-rows="true" id="AttachmentsTable"></abp-table>
+
+    </abp-card-body>
+</abp-card>
